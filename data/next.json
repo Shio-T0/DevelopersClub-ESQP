@@ -2,14 +2,23 @@
   "_help": "Secção 'O que aí vem'. Edita este ficheiro e faz commit. Em 'title' podes pôr *asteriscos* à volta de uma palavra para a destacar com a cor de realce. 'points' aceita quantos itens quiseres.",
   "next": {
     "badge": "curso · saylor academy",
-    "state": "em discussão",
+    "state": "Não Iniciado",
     "file": "roadmap.2026.md",
     "title": "Ciência da Computação · *Python*",
     "description": "No próximo ano, vamos integrar um curso da Saylor Academy nas atividades do clube. O objetivo é simples: dar a todos os membros uma base sólida em programação e ciência da computação — para que ninguém fique para trás e cada um possa contribuir nos projetos do clube com confiança.",
     "points": [
-      { "title": "Acessível", "text": "Gratuito e ao ritmo de cada um." },
-      { "title": "Estruturado", "text": "Conteúdo organizado por módulos." },
-      { "title": "Aplicável", "text": "Ligado aos projetos do clube." }
+      {
+        "title": "Acessível",
+        "text": "Gratuito e ao ritmo de cada um."
+      },
+      {
+        "title": "Estruturado",
+        "text": "Conteúdo organizado por módulos."
+      },
+      {
+        "title": "Aplicável",
+        "text": "Ligado aos projetos do clube."
+      }
     ]
   }
 }
