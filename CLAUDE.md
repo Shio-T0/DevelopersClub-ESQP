@@ -91,6 +91,34 @@ Headless note: screenshotting this needs a browser that actually produces frames
 - **8 · Content** — `createStore()` builds one loader per data file (fetch → localStorage draft → dirty check → export). `renderWorks()`, `renderEvents()` and `renderNext()` mount the HTML. `escapeHTML()` runs before `inline()` on every field.
 - **8b · Admin** — login + side panel with a tab per store.
 - **9 · Boot log** — branded `console.log` for anyone opening devtools.
+- **10 · Easter eggs** — see below.
+
+### Easter eggs
+
+Five, each found a different way so they read as a set rather than variations on one trick. All of them drive things the page already has (the plotter, the ledger, the emblem, the tagline) rather than adding machinery.
+
+| Trigger | What happens |
+|---|---|
+| `↑↑↓↓←→←→ba` (block 7) | green phosphor tube — swaps the palette and dissolves the plates |
+| type `fib` anywhere | the hero ledger runs the Fibonacci sequence, then restores its real numbers |
+| type `ink` anywhere | fresh sheet: every pen lifts its plate and starts a new one |
+| type `sudo` anywhere | `sudo: este clube não tem root` |
+| five clicks on the hero emblem | flips the printing plate to the **paper proof** pulled off it (`.hero-plate.proof` inverts the woodcut and drops the screen blend). Click five more to go back |
+| click the hero tagline | the `>` prompt becomes a real console: `help · ls · whoami · uptime · plot · fib · sair`. Esc or clicking away closes it |
+| three clicks on the **footer wax seal** (or type `carta`, or `club.carta()`) | breaks the seal and opens **o correio do clube** — a letter form addressed to the club |
+| `club.help()` in devtools | lists the console API: `plot(figura)`, `sheet()`, `fib()`, `proof()`, `carta()` |
+
+#### O correio do clube
+
+The letter form composes the message and hands it to the visitor's mail client via `mailto:` (with an "abre no Gmail" web fallback and a copy-address button). **The site is static — nothing here can send mail on its own**, and that limit is stated in the UI rather than faked. To make it send server-side, point `#post-form` at a form endpoint (Formspree, Web3Forms and similar all take a POST from a static page); the fields are already the right shape and the address lives in one constant, `CLUB_ADDRESS`.
+
+That constant is assembled in JS rather than written into the markup, so the modal doesn't hand the address to scrapers — though note the join section prints it in plain text anyway, so the obfuscation only matters if that changes.
+
+Wiring worth knowing:
+
+- The word triggers listen on `window` but **bail out when the target is an `input`/`textarea`** — otherwise typing "fib" into the admin panel would fire them.
+- The tagline console sets `shellActive`, which the **typewriter (block 2) checks each tick** so it idles instead of overwriting what's being typed, and which the **konami listener checks** so typed letters don't advance it. Its input is a real (visually hidden) `<input>` so phones raise a keyboard; keydowns on it call `stopPropagation()`.
+- `club.plot(kind)` sets `forcedKind`, which `newPlate()` consumes **once** for the next margin plate and then clears.
 
 ## Admin workflow
 

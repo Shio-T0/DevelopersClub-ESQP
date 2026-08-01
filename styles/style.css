@@ -304,6 +304,15 @@ h1, h2, h3 {
     mix-blend-mode: screen;
     filter: sepia(0.8) saturate(1.5) hue-rotate(-14deg) contrast(1.04) brightness(1.02);
 }
+/* easter egg (block 10): five clicks flip the printing plate to the paper
+   proof pulled off it — the woodcut is white-on-black, so inverting it and
+   dropping the screen blend gives dark engraving on a light sheet */
+.hero-plate.proof img {
+    mix-blend-mode: normal;
+    filter: invert(1) sepia(0.8) saturate(1.4) hue-rotate(-14deg) contrast(0.92) brightness(1.03);
+}
+.hero-plate.proof { background: linear-gradient(160deg, rgba(240, 229, 208, 0.12), rgba(0, 0, 0, 0.2)); }
+
 .plate-caption {
     display: block;
     margin-top: 10px;
@@ -365,6 +374,19 @@ h1, h2, h3 {
     gap: 0.5rem;
 }
 .hero-tagline .prompt { color: var(--rust); font-weight: 700; }
+/* the tagline really is a prompt — clicking it opens the console (block 10) */
+.hero-tagline { cursor: text; }
+.hero-tagline.shell .prompt { color: var(--brass); }
+.shell-input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    /* 16px keeps iOS from zooming the page when it takes focus */
+    font-size: 16px;
+}
 .hero-tagline .caret {
     display: inline-block;
     width: 0.5em;
@@ -1249,6 +1271,37 @@ html.js .reveal.visible {
 }
 
 .login-submit { justify-content: center; margin-top: 0.4rem; }
+
+/* --- posta do clube (easter egg) --- */
+
+.post-intro {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: var(--paper-dim);
+    border-left: 2px solid var(--rust);
+    padding-left: 0.8rem;
+    margin-bottom: 0.4rem;
+}
+.post-body {
+    resize: vertical;
+    min-height: 110px;
+    line-height: 1.55;
+}
+.post-copy {
+    font-family: var(--font-mono);
+    font-size: inherit;
+    color: var(--verdigris);
+    text-decoration: underline dotted;
+    padding: 0;
+}
+.post-copy:hover { color: var(--brass); }
+.login-note a { color: var(--verdigris); text-decoration: underline dotted; }
+.login-note a:hover { color: var(--brass); }
+
+/* the footer seal is breakable — three clicks opens the letter */
+.foot-seal.is-seal { cursor: pointer; transition: transform 0.25s, border-color 0.25s; }
+.foot-seal.is-seal:hover { transform: rotate(-6deg) scale(1.06); border-color: var(--wine); }
+.foot-seal.is-seal:active { transform: rotate(3deg) scale(0.96); }
 
 .login-note,
 .admin-note {

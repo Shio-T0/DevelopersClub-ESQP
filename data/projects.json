@@ -1,5 +1,5 @@
 {
-  "_help": "Secção 'O que já construímos'. Edita esta lista e faz commit — é o que o site mostra. A ordem aqui é a ordem no site. Em 'title' podes pôr *asteriscos* à volta de uma palavra para a destacar a cor.",
+  "_help": "Secção 'O que já construímos'. Edita esta lista e faz commit — é o que o site mostra. A ordem aqui é a ordem no site. Em 'title' podes pôr *asteriscos* à volta de uma palavra para a destacar com a cor de realce.",
   "projects": [
     {
       "id": "cansat",

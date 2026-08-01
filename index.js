@@ -319,6 +319,7 @@ function buildSlots() {
 
 let pens = [];
 let plateNo = 0;
+let forcedKind = null;   // set by the console API in block 10; used once
 let lastLabel = '';
 let lastRoman = 'i';
 
@@ -361,7 +362,7 @@ function newPlate(pen) {
         // a set of identically sized medallions. Big ones get a lighter
         // hand since they reach further into the copy column.
         const big = Math.random() < 0.35;
-        Object.assign(pen, makeFigure(), common, {
+        Object.assign(pen, makeFigure(forcedKind), common, {
             slot,
             cx: slot.x + rand(-16, 16),
             cy: slot.y + rand(-16, 16),
@@ -371,6 +372,7 @@ function newPlate(pen) {
             squares: null,
             labels: []
         });
+        forcedKind = null;   // a request from the console applies to one plate
     }
 
     const start = project(pen, 0);
@@ -653,6 +655,10 @@ else {
    2 · TYPEWRITER — hero tagline
    =========================================================== */
 
+/* Block 10 can take the tagline over as a console; while it holds it, the
+   typewriter idles instead of overwriting what's being typed. */
+let shellActive = false;
+
 const typed = document.getElementById('typed');
 if (typed && !prefersReducedMotion) {
     const phrases = [
@@ -663,6 +669,8 @@ if (typed && !prefersReducedMotion) {
     ];
     let pi = 0, ci = 0, deleting = false;
     const tick = () => {
+        // the console owns the line while it's open — idle, don't reset
+        if (shellActive) { setTimeout(tick, 300); return; }
         const phrase = phrases[pi];
         if (!deleting) {
             ci++;
@@ -836,6 +844,7 @@ const konami = [
 ];
 let kIdx = 0;
 window.addEventListener('keydown', (e) => {
+    if (shellActive) return;   // keys belong to the console while it's open
     const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     if (k === konami[kIdx]) {
         kIdx++;
@@ -1442,6 +1451,301 @@ const css = (c) => `color:${c};font-family:JetBrains Mono,monospace;`;
 console.log('%cDeveloper\'s Club', css('#c25a2e') + 'font-size:15px;font-weight:bold;');
 console.log('%c> ESQP · 2025/2026 · on branch main', css('#d8a441'));
 console.log('%c> conteúdo: data/projects.json · data/events.json · data/next.json', css('#79b39d'));
-console.log('%c> hint: tenta ↑↑↓↓←→←→ba', css('#83705a') + 'font-style:italic;');
+console.log('%c> dica: tenta ↑↑↓↓←→←→ba, ou club.help()', css('#83705a') + 'font-style:italic;');
+
+/* ===========================================================
+   10 · EASTER EGGS — for anyone who pokes around
+   ===========================================================
+   Four more, each found a different way, so they read as a set
+   rather than variations on one trick:
+
+     · type  fib / ink / sudo  anywhere on the page
+     · click the hero emblem five times → paper proof
+     · click the hero prompt → a small console in the tagline
+     · open devtools and call club.help()
+
+   Block 7's konami code is the fifth. Everything here reuses
+   what the page already has — the plotter, the ledger, the
+   emblem — rather than adding new machinery.
+   =========================================================== */
+
+/* --- the ledger runs the sequence it was already hinting at --- */
+
+let fibRunning = false;
+function runFibonacci() {
+    const cells = document.querySelectorAll('.ledger-row .v');
+    if (!cells.length || fibRunning) return;
+    fibRunning = true;
+    const original = [...cells].map((c) => c.textContent);
+    const seq = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144];
+    let step = 0;
+    flashStatus('fibonacci()');
+    const id = setInterval(() => {
+        cells.forEach((c, n) => { c.textContent = seq[(step + n * 2) % seq.length]; });
+        if (++step > seq.length) {
+            clearInterval(id);
+            cells.forEach((c, n) => { c.textContent = original[n]; });
+            fibRunning = false;
+        }
+    }, 110);
+}
+
+/* --- a fresh sheet: every pen lifts its plate and starts over --- */
+
+function freshSheet(kind) {
+    forcedKind = kind || null;
+    dissolvePlates();
+    flashStatus(kind ? `folha nova · ${kind}` : 'folha nova');
+}
+
+/* --- typed words, anywhere on the page ------------------------ */
+
+const WORDS = {
+    fib:   runFibonacci,
+    ink:   () => freshSheet(),
+    sudo:  () => flashStatus('sudo: este clube não tem root'),
+    carta: () => openPost()
+};
+const LONGEST_WORD = Math.max(...Object.keys(WORDS).map((w) => w.length));
+let wordBuffer = '';
+
+window.addEventListener('keydown', (e) => {
+    if (shellActive || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key.length !== 1) return;
+    // never while someone is filling in the admin panel
+    if (e.target && e.target.matches && e.target.matches('input, textarea')) return;
+    wordBuffer = (wordBuffer + e.key.toLowerCase()).slice(-LONGEST_WORD);
+    for (const word of Object.keys(WORDS)) {
+        if (wordBuffer.endsWith(word)) {
+            WORDS[word]();
+            wordBuffer = '';
+            break;
+        }
+    }
+});
+
+/* --- five clicks on the emblem: plate ↔ paper proof ------------ */
+
+const heroPlate = document.querySelector('.hero-plate');
+if (heroPlate) {
+    let taps = 0, tapTimer = 0;
+    heroPlate.addEventListener('click', () => {
+        taps++;
+        clearTimeout(tapTimer);
+        tapTimer = setTimeout(() => { taps = 0; }, 1400);
+        if (taps >= 5) {
+            taps = 0;
+            const proofing = heroPlate.classList.toggle('proof');
+            flashStatus(proofing ? 'prova em papel' : 'chapa de volta');
+        }
+    });
+}
+
+/* --- the tagline is a real prompt if you click it -------------- */
+
+const tagline = document.querySelector('.hero-tagline');
+let shellInput = null;
+let outputTimer = 0;
+
+function shellPrint(text) {
+    if (!typed) return;
+    typed.textContent = text;
+    clearTimeout(outputTimer);
+    outputTimer = setTimeout(() => {
+        if (shellActive && shellInput) typed.textContent = shellInput.value;
+    }, 2400);
+}
+
+function runCommand(line) {
+    const [name, ...args] = line.split(/\s+/);
+    switch (name) {
+        case '':        return;
+        case 'help':    return shellPrint('ls · whoami · uptime · plot · fib · sair');
+        case 'ls':      return shellPrint('identidade  percurso  diário  próximo  junta-te');
+        case 'whoami':  return shellPrint('visitante@esqp');
+        case 'uptime':  return shellPrint(`${Math.round(performance.now() / 1000)}s nesta página`);
+        case 'plot':    freshSheet(args[0]); return shellPrint('folha nova');
+        case 'fib':     runFibonacci(); return shellPrint('fibonacci()');
+        case 'sudo':    return shellPrint('este clube não tem root');
+        case 'exit':
+        case 'sair':    return closeShell();
+        default:        return shellPrint(`comando desconhecido: ${name}`);
+    }
+}
+
+function openShell() {
+    if (shellActive || !typed || !tagline) return;
+    shellActive = true;
+    tagline.classList.add('shell');
+    typed.textContent = '';
+
+    if (!shellInput) {
+        // a real input, so phones raise a keyboard; it is visually hidden
+        // and everything typed is mirrored into #typed
+        shellInput = document.createElement('input');
+        shellInput.className = 'shell-input';
+        shellInput.setAttribute('aria-label', 'consola do clube');
+        shellInput.autocomplete = 'off';
+        shellInput.spellcheck = false;
+        tagline.appendChild(shellInput);
+
+        shellInput.addEventListener('input', () => {
+            clearTimeout(outputTimer);
+            typed.textContent = shellInput.value;
+        });
+        shellInput.addEventListener('keydown', (e) => {
+            // the konami and word listeners must not see these keys
+            e.stopPropagation();
+            if (e.key === 'Enter') {
+                const line = shellInput.value.trim();
+                shellInput.value = '';
+                runCommand(line);
+            } else if (e.key === 'Escape') {
+                closeShell();
+            }
+        });
+        shellInput.addEventListener('blur', closeShell);
+    }
+
+    shellInput.value = '';
+    shellInput.focus();
+    flashStatus('consola aberta · escreve help · esc para sair');
+}
+
+function closeShell() {
+    if (!shellActive) return;
+    shellActive = false;
+    clearTimeout(outputTimer);
+    if (tagline) tagline.classList.remove('shell');
+    if (shellInput) shellInput.blur();
+    if (typed) typed.textContent = '';
+}
+
+tagline && tagline.addEventListener('click', (e) => {
+    if (e.target === shellInput) return;
+    openShell();
+});
+
+/* --- break the wax seal: a letter to the club ------------------
+   The site is static — nothing here can send mail on its own. The
+   form composes the letter and hands it to the visitor's mail app
+   (or Gmail on the web), which is the only honest option without a
+   backend. Swapping this for a real send means pointing the form
+   at a service endpoint; the fields are already the right shape. */
+
+const CLUB_ADDRESS = ['developersclub.esqp', 'gmail.com'].join('@');
+const postModal = $('post-modal');
+const postForm = $('post-form');
+
+function letterText() {
+    const name = ($('post-name').value || '').trim();
+    const from = ($('post-from').value || '').trim();
+    const body = ($('post-body').value || '').trim();
+    return `${body}\n\n—\n${name}${from ? ` · ${from}` : ''}\nenviado pelo site do Developer's Club`;
+}
+
+function openPost() {
+    if (!postModal) return;
+    const addr = $('post-address');
+    if (addr) addr.textContent = CLUB_ADDRESS;
+    postModal.hidden = false;
+    postModal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => { const f = $('post-name'); if (f) f.focus(); }, 30);
+    flashStatus('selo quebrado · correio do clube');
+}
+
+function closePost() {
+    if (!postModal) return;
+    postModal.hidden = true;
+    postModal.setAttribute('aria-hidden', 'true');
+}
+
+postModal && postModal.addEventListener('click', (e) => {
+    if (e.target.matches('[data-close]')) closePost();
+});
+
+postForm && postForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const subject = ($('post-subject').value || 'Olá, Developer\'s Club').trim();
+    window.location.href = `mailto:${CLUB_ADDRESS}` +
+        `?subject=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(letterText())}`;
+    flashStatus('carta aberta no teu email');
+    setTimeout(closePost, 400);
+});
+
+$('post-gmail') && $('post-gmail').addEventListener('click', (e) => {
+    e.preventDefault();
+    const subject = ($('post-subject').value || 'Olá, Developer\'s Club').trim();
+    window.open('https://mail.google.com/mail/?view=cm&fs=1' +
+        `&to=${encodeURIComponent(CLUB_ADDRESS)}` +
+        `&su=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(letterText())}`, '_blank', 'noopener');
+});
+
+$('post-copy') && $('post-copy').addEventListener('click', () => {
+    const done = () => flashStatus('endereço copiado');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(CLUB_ADDRESS).then(done, () => flashStatus(CLUB_ADDRESS));
+    } else {
+        flashStatus(CLUB_ADDRESS);
+    }
+});
+
+// the seal itself: three clicks breaks it
+const footSeal = document.querySelector('.foot-seal');
+if (footSeal) {
+    footSeal.classList.add('is-seal');
+    footSeal.setAttribute('title', 'selo do clube');
+    let breaks = 0, breakTimer = 0;
+    footSeal.addEventListener('click', () => {
+        breaks++;
+        clearTimeout(breakTimer);
+        breakTimer = setTimeout(() => { breaks = 0; }, 1500);
+        if (breaks >= 3) { breaks = 0; openPost(); }
+    });
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && postModal && !postModal.hidden) closePost();
+});
+
+/* --- and the console API --------------------------------------- */
+
+const KINDS = {
+    'harmonograph': 'harmonograph', 'harmonógrafo': 'harmonograph',
+    'guilloche': 'guilloche', 'guilhoche': 'guilloche', 'guilhochê': 'guilloche',
+    'rose': 'rose', 'rosacea': 'rose', 'rosácea': 'rose'
+};
+
+window.club = {
+    help() {
+        const t = css('#d8a441'), d = css('#83705a');
+        console.log('%cclub.help()', css('#c25a2e') + 'font-weight:bold;');
+        console.log('%c  club.plot(figura)  %co desenho seguinte: harmonógrafo · guilhochê · rosácea', t, d);
+        console.log('%c  club.sheet()       %cfolha nova, todos os desenhos recomeçam', t, d);
+        console.log('%c  club.fib()         %co livro de registo conta a sequência de Fibonacci', t, d);
+        console.log('%c  club.proof()       %ca chapa do emblema passa a prova em papel', t, d);
+        console.log('%c  club.carta()       %cescrever ao clube', t, d);
+        console.log('%c  na página:         %cescreve fib · ink · sudo · carta, clica no emblema 5x,', t, d);
+        console.log('%c                     %cclica no prompt, ou parte o selo no rodapé (3x)', t, d);
+        return 'boa exploração.';
+    },
+    plot(kind) {
+        const k = KINDS[String(kind || '').toLowerCase()];
+        if (!k) return 'figuras: harmonógrafo · guilhochê · rosácea';
+        freshSheet(k);
+        return `a desenhar ${kind}`;
+    },
+    sheet() { freshSheet(); return 'folha nova'; },
+    fib() { runFibonacci(); return 'fibonacci()'; },
+    carta() { openPost(); return 'correio do clube aberto'; },
+    proof() {
+        if (!heroPlate) return 'sem emblema nesta página';
+        const on = heroPlate.classList.toggle('proof');
+        flashStatus(on ? 'prova em papel' : 'chapa de volta');
+        return on ? 'prova em papel' : 'chapa de volta';
+    }
+};
 
 })();

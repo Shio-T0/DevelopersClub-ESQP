@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <script>document.documentElement.classList.add('js');</script>
     <meta charset="UTF-8">
@@ -126,7 +126,7 @@
         <article class="pillar reveal" data-tilt>
             <div class="pillar-mark">ii</div>
             <h3>Prática</h3>
-            <p>Aprender a fazer fazendo.</p>
+            <p>Aprende fazendo.</p>
             <div class="pillar-foot"><code>while (learning) { build() }</code></div>
         </article>
         <article class="pillar reveal" data-tilt>
@@ -269,8 +269,57 @@
                 <span class="arrow">→</span>
             </button>
             <p class="login-note">
-                Gate local, não é autenticação a sério. As alterações ficam neste browser
+                Bloqueio local, não é autenticação a sério. As alterações ficam neste browser
                 até exportares o ficheiro e fazeres commit.
+            </p>
+        </form>
+    </div>
+</div>
+
+<!-- =========== EASTER EGG — o correio do clube ===========
+     Opened by breaking the wax seal in the footer (three clicks), by
+     typing "carta", or from club.carta(). The address is filled in by
+     JS rather than sitting in the markup for scrapers to find. -->
+<div class="modal" id="post-modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-labelledby="post-title">
+        <header class="modal-head">
+            <div class="modal-title" id="post-title">
+                <span class="prompt">&gt;</span> correio do clube
+            </div>
+            <button class="modal-close" data-close aria-label="fechar">×</button>
+        </header>
+        <form class="login-form" id="post-form" autocomplete="off">
+            <p class="post-intro">
+                Selo destruido. Escreve ao clube — a carta abre no teu email, já preenchida e pronta a enviar.
+            </p>
+
+            <label class="login-label" for="post-name">quem escreve</label>
+            <input type="text" id="post-name" class="login-input"
+                   placeholder="o teu nome" maxlength="60" required>
+
+            <label class="login-label" for="post-from">email de resposta</label>
+            <input type="email" id="post-from" class="login-input"
+                   placeholder="tu@exemplo.pt" maxlength="80" required>
+
+            <label class="login-label" for="post-subject">assunto</label>
+            <input type="text" id="post-subject" class="login-input"
+                   placeholder="Quero juntar-me ao clube" maxlength="90" required>
+
+            <label class="login-label" for="post-body">mensagem</label>
+            <textarea id="post-body" class="login-input post-body" rows="5"
+                      maxlength="1200" placeholder="Escreve aqui." required></textarea>
+
+            <button type="submit" class="cta cta-primary login-submit">
+                <span>Enviar</span>
+                <span class="arrow">→</span>
+            </button>
+
+            <p class="login-note">
+                <span class="op">//</span> para <code id="post-address">…</code><br>
+                sem cliente de email? <a href="#" id="post-gmail">abre no Gmail</a>
+                <span class="sep">·</span>
+                <button type="button" class="post-copy" id="post-copy">copiar endereço</button>
             </p>
         </form>
     </div>
