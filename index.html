@@ -6,30 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Developer's Club · ESQP · 2025/2026</title>
     <meta name="description" content="Developer's Club da ESQP — Programa. Cria. Constrói.">
-    <meta name="theme-color" content="#0a0a0f">
+    <meta name="theme-color" content="#14100c">
+    <link rel="icon" href="images/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..800,0..100,0..1;1,9..144,400..700,0..100,0..1&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap">
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
 <canvas id="bg"></canvas>
-<div class="grid-overlay" aria-hidden="true"></div>
+<canvas id="bg-fx"></canvas>
+<div class="rules-overlay" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
 <div class="vignette" aria-hidden="true"></div>
 
 <nav class="top-nav">
     <a href="#top" class="logo">
-        <span class="bracket">{</span>&nbsp;developers_club&nbsp;<span class="bracket">}</span>
+        <img class="logo-mark" src="images/logo.jpg" alt="" width="34" height="34">
+        <span class="logo-text">
+            <span class="logo-name">Developer's Club</span>
+            <span class="logo-path">~/esqp · main</span>
+        </span>
     </a>
     <ul class="nav-links">
-        <li><a href="#identity">01 / identidade</a></li>
-        <li><a href="#journey">02 / percurso</a></li>
-        <li><a href="#events">03 / eventos</a></li>
-        <li><a href="#next">04 / próximo</a></li>
-        <li><a href="#join">05 / junta-te</a></li>
+        <li><a href="#identity">identidade</a></li>
+        <li><a href="#journey">percurso</a></li>
+        <li><a href="#events">diário</a></li>
+        <li><a href="#next">próximo</a></li>
+        <li><a href="#join">junta-te</a></li>
     </ul>
-    <a href="#join" class="nav-cta">$ join_</a>
+    <a href="#join" class="nav-cta">junta-te</a>
     <button class="nav-burger" aria-label="menu" id="burger">
         <span></span><span></span><span></span>
     </button>
@@ -37,50 +44,61 @@
 
 <header class="hero" id="top">
     <div class="hero-inner">
-        <div class="hero-meta reveal">
-            <span class="dot">●</span> ESQP · 2025/2026
-            <span class="sep">//</span>
-            <span class="status">status: <em>online</em></span>
+        <div class="hero-plate reveal">
+            <img src="images/logo.jpg" alt="Emblema do Developer's Club: uma palmeira gravada num céu de código Python" width="288" height="288">
+            <span class="plate-caption">est. 2025 · esqp</span>
         </div>
 
-        <h1 class="hero-title">
-            <span class="line line-1" data-text="Developer's">Developer's</span>
-            <span class="line line-2" data-text="Club.">Club<span class="punct">.</span></span>
-        </h1>
-
-        <p class="hero-tagline">
-            <span class="prompt">$</span>
-            <span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span>
-        </p>
-
-        <div class="hero-stats">
-            <div class="stat reveal">
-                <span class="n" data-target="4">0</span>
-                <span class="l">// projetos</span>
+        <div class="hero-copy">
+            <div class="hero-meta reveal">
+                <span class="dot"></span>
+                on branch <em>main</em>
+                <span class="sep">·</span>
+                ESQP 2025/2026
             </div>
-            <div class="stat reveal">
-                <span class="n" data-target="3">0</span>
-                <span class="l">// pilares</span>
-            </div>
-            <div class="stat reveal">
-                <span class="n">∞</span>
-                <span class="l">// curiosidade</span>
-            </div>
-        </div>
 
-        <div class="hero-actions reveal">
-            <a class="cta cta-primary" href="#join">
-                <span>./juntar-me.sh</span>
-                <span class="arrow">→</span>
-            </a>
-            <a class="cta cta-ghost" href="#journey">
-                <span>cat percurso.md</span>
-            </a>
+            <h1 class="hero-title">
+                <span class="line line-1">Developer's</span>
+                <span class="line line-2">Club<span class="punct">.</span></span>
+            </h1>
+
+            <p class="hero-tagline">
+                <span class="prompt">&gt;</span>
+                <span class="typed" id="typed"></span><span class="caret" aria-hidden="true"></span>
+            </p>
+
+            <div class="ledger reveal">
+                <div class="ledger-row">
+                    <span class="k">projetos no arquivo</span>
+                    <span class="dots" aria-hidden="true"></span>
+                    <span class="v n" id="stat-projects" data-target="4">0</span>
+                </div>
+                <div class="ledger-row">
+                    <span class="k">pilares do clube</span>
+                    <span class="dots" aria-hidden="true"></span>
+                    <span class="v n" data-target="3">0</span>
+                </div>
+                <div class="ledger-row">
+                    <span class="k">curiosidade</span>
+                    <span class="dots" aria-hidden="true"></span>
+                    <span class="v">∞</span>
+                </div>
+            </div>
+
+            <div class="hero-actions reveal">
+                <a class="cta cta-primary" href="#join">
+                    <span>junta-te ao clube</span>
+                    <span class="arrow">→</span>
+                </a>
+                <a class="cta cta-ghost" href="#journey">
+                    <span>ver o percurso</span>
+                </a>
+            </div>
         </div>
     </div>
 
-    <a href="#identity" class="scroll-hint" aria-label="scroll down">
-        <span>scroll</span>
+    <a href="#identity" class="scroll-hint" aria-label="continuar">
+        <span>continua</span>
         <span class="line"></span>
     </a>
 </header>
@@ -88,8 +106,9 @@
 <main>
 
 <section id="identity" class="section">
+    <div class="section-rule" aria-hidden="true"><span>i · identidade</span></div>
     <div class="section-head">
-        <div class="section-label reveal"><span class="op">01</span> // identidade</div>
+        <div class="section-label reveal"><span class="op">/*</span> identidade <span class="op">*/</span></div>
         <h2 class="reveal">Quem somos?</h2>
         <p class="lead reveal">
             Somos um grupo de alunos movidos por uma mesma vontade: transformar ideias em código.
@@ -99,167 +118,94 @@
 
     <div class="pillars">
         <article class="pillar reveal" data-tilt>
-            <div class="pillar-corner"></div>
-            <div class="num">01</div>
+            <div class="pillar-mark">i</div>
             <h3>Curiosidade</h3>
             <p>Perguntar primeiro, programar depois.</p>
-            <div class="pillar-foot"><span class="op">↪</span> ask.first()</div>
+            <div class="pillar-foot"><code>ask.first()</code></div>
         </article>
         <article class="pillar reveal" data-tilt>
-            <div class="pillar-corner"></div>
-            <div class="num">02</div>
+            <div class="pillar-mark">ii</div>
             <h3>Prática</h3>
             <p>Aprender a fazer fazendo.</p>
-            <div class="pillar-foot"><span class="op">↪</span> while(learning){ build() }</div>
+            <div class="pillar-foot"><code>while (learning) { build() }</code></div>
         </article>
         <article class="pillar reveal" data-tilt>
-            <div class="pillar-corner"></div>
-            <div class="num">03</div>
+            <div class="pillar-mark">iii</div>
             <h3>Comunidade</h3>
             <p>Crescer com quem está ao nosso lado.</p>
-            <div class="pillar-foot"><span class="op">↪</span> we &gt; me</div>
+            <div class="pillar-foot"><code>we &gt; me</code></div>
         </article>
     </div>
 </section>
 
 <section id="journey" class="section">
+    <div class="section-rule" aria-hidden="true"><span>ii · percurso</span></div>
     <div class="section-head">
-        <div class="section-label reveal"><span class="op">02</span> // percurso</div>
+        <div class="section-label reveal"><span class="op">/*</span> percurso <span class="op">*/</span></div>
         <h2 class="reveal">O que já <span class="accent">construímos</span></h2>
-        <p class="lead reveal">Quatro projetos. Quatro provas do que conseguimos fazer juntos.</p>
+        <p class="lead reveal">O arquivo do clube. Cada folha, um projeto que saiu do papel.</p>
     </div>
 
-    <div class="projects">
-        <article class="project reveal" data-tilt>
-            <header class="proj-head">
-                <span class="proj-num">01</span>
-                <span class="proj-cat">CANSAT</span>
-            </header>
-            <h3>Equipa <span class="accent">InAxon</span></h3>
-            <p class="tagline">Um satélite do tamanho de uma lata. Um desafio à altura de uma equipa.</p>
-            <p class="body">
-                Participámos no CanSat, um desafio internacional onde equipas de estudantes constroem um mini-satélite capaz de recolher e transmitir dados durante uma queda controlada. Juntámos eletrónica, software e engenharia para colocar o nosso projeto no ar — e trazer os dados de volta ao chão.
-            </p>
-            <ul class="tags">
-                <li>hardware</li><li>sensores</li><li>software embebido</li><li>equipa</li>
-            </ul>
-        </article>
-
-        <article class="project reveal" data-tilt>
-            <header class="proj-head">
-                <span class="proj-num">02</span>
-                <span class="proj-cat">OLIMPÍADA</span>
-            </header>
-            <h3>Náboj <span class="accent">Matemática</span></h3>
-            <p class="tagline">Mentes rápidas. Raciocínio afinado. Pressão a sério.</p>
-            <p class="body">
-                Representámos a escola no Náboj, uma competição internacional de matemática em que equipas resolvem problemas exigentes contrarrelógio. Mais do que medir conhecimento, o Náboj testa estratégia, colaboração e a capacidade de pensar com clareza quando o tempo aperta — exatamente o tipo de desafio que nos move.
-            </p>
-            <ul class="tags">
-                <li>resolução de problemas</li><li>equipa</li><li>pensamento rápido</li>
-            </ul>
-        </article>
-
-        <article class="project reveal" data-tilt>
-            <header class="proj-head">
-                <span class="proj-num">03</span>
-                <span class="proj-cat">PARTILHA</span>
-            </header>
-            <h3>Matemática <span class="op">+</span> <span class="accent">Código</span></h3>
-            <p class="tagline">Quando o código dá vida às fórmulas.</p>
-            <p class="body">
-                Levámos à turma uma apresentação sobre sucessões — não em fórmulas estáticas no quadro, mas em código a correr. Mostrámos como a programação pode tornar a matemática mais visual, mais intuitiva e, sobretudo, mais nossa: traduzimos conceitos em pequenos programas e demos vida aos termos das sucessões, um a um.
-            </p>
-            <ul class="tags">
-                <li>sucessões</li><li>visualização</li><li>didática</li>
-            </ul>
-        </article>
-
-        <article class="project reveal" data-tilt>
-            <header class="proj-head">
-                <span class="proj-num">04</span>
-                <span class="proj-cat">COLABORAÇÃO</span>
-            </header>
-            <h3>Por trás do <span class="accent">Futuro</span></h3>
-            <p class="tagline">Um website para dar voz a quem está a construir o seu caminho.</p>
-            <p class="body">
-                Apoiámos o projeto "Por trás do Futuro" no desenvolvimento de um website que reúne entrevistas a estudantes universitários e profissionais — partilhas autênticas sobre escolhas, percursos e o que está por trás de cada futuro. Combinámos design, código e inteligência artificial para entregar uma plataforma funcional, leve e pensada para o leitor.
-            </p>
-            <ul class="tags">
-                <li>web dev</li><li>IA como ferramenta</li><li>design</li><li>projeto real</li>
-            </ul>
-        </article>
-    </div>
+    <div class="works" id="works-list"></div>
+    <noscript>
+        <p class="lead">Ativa o JavaScript para ver o arquivo de projetos, ou lê <code>data/projects.json</code>.</p>
+    </noscript>
 </section>
 
 <section id="events" class="section">
+    <div class="section-rule" aria-hidden="true"><span>iii · diário</span></div>
     <div class="section-head">
-        <div class="section-label reveal"><span class="op">03</span> // eventos recentes</div>
+        <div class="section-label reveal"><span class="op">/*</span> diário de bordo <span class="op">*/</span></div>
         <h2 class="reveal">O que está <span class="accent">planeado</span></h2>
-        <p class="lead reveal">Sessões, workshops, momentos. Atualizado pelo clube.</p>
+        <p class="lead reveal">Sessões, workshops e momentos, registados por ordem — como um histórico de commits.</p>
     </div>
 
     <div class="events-wrap">
+        <div class="log-head" id="log-head" hidden>
+            <span class="log-cmd">git log --graph</span>
+            <span class="log-ref">HEAD → main</span>
+        </div>
         <div class="events-empty" id="events-empty" hidden>
-            <span class="op">//</span> ainda sem eventos.
+            <span class="op">//</span> ainda sem registos.
+            <a href="#" id="events-empty-admin">abrir o painel</a>
         </div>
         <ol class="events" id="events-list"></ol>
+        <div class="log-foot" id="log-foot" hidden>
+            <span class="log-node"></span>
+            <span>início do diário</span>
+        </div>
     </div>
+    <noscript>
+        <p class="lead">Ativa o JavaScript para ver o diário, ou lê <code>data/events.json</code>.</p>
+    </noscript>
 </section>
 
 <section id="next" class="section">
+    <div class="section-rule" aria-hidden="true"><span>iv · próximo</span></div>
     <div class="section-head">
-        <div class="section-label reveal"><span class="op">04</span> // próximo capítulo</div>
+        <div class="section-label reveal"><span class="op">/*</span> próximo capítulo <span class="op">*/</span></div>
         <h2 class="reveal">O que <span class="accent">aí vem</span></h2>
     </div>
 
-    <div class="next-card reveal">
-        <div class="next-card-top">
-            <div class="badge">
-                <span class="badge-dot"></span>
-                CURSO · SAYLOR ACADEMY <span class="op">·</span> em discussão
-            </div>
-            <div class="badge-meta">file: <em>roadmap.2026.md</em></div>
-        </div>
-        <h3>Ciência da Computação <span class="op">·</span> <span class="accent">Python</span></h3>
-        <p class="lead">
-            No próximo ano, vamos integrar um curso da Saylor Academy nas atividades do clube. O objetivo é simples: dar a todos os membros uma base sólida em programação e ciência da computação — para que ninguém fique para trás e cada um possa contribuir nos projetos do clube com confiança.
-        </p>
-        <div class="next-points">
-            <div class="next-point">
-                <span class="np-arrow">→</span>
-                <strong>Acessível</strong>
-                <span>Gratuito e ao ritmo de cada um.</span>
-            </div>
-            <div class="next-point">
-                <span class="np-arrow">→</span>
-                <strong>Estruturado</strong>
-                <span>Conteúdo organizado por módulos.</span>
-            </div>
-            <div class="next-point">
-                <span class="np-arrow">→</span>
-                <strong>Aplicável</strong>
-                <span>Ligado aos projetos do clube.</span>
-            </div>
-        </div>
-    </div>
+    <div class="next-card reveal" id="next-card"></div>
 </section>
 
 <section id="join" class="section join">
+    <div class="section-rule" aria-hidden="true"><span>v · junta-te</span></div>
     <div class="section-head">
-        <div class="section-label reveal"><span class="op">05</span> // junta-te a nós</div>
+        <div class="section-label reveal"><span class="op">/*</span> junta-te a nós <span class="op">*/</span></div>
         <h2 class="reveal">E tu, o que vais <span class="accent">construir</span>?</h2>
     </div>
 
     <div class="join-grid">
         <div class="join-text reveal">
             <p>
-                <span class="label">// começo:</span>
-                Sem experiência? <span class="hl">Ótimo</span> — vens aprender.
+                <span class="label">sem experiência</span>
+                <span class="hl">Ótimo</span> — vens aprender.
             </p>
             <p>
-                <span class="label">// continuação:</span>
-                Já programas? <span class="hl">Melhor ainda</span> — vens construir.
+                <span class="label">já programas</span>
+                <span class="hl">Melhor ainda</span> — vens construir.
             </p>
         </div>
 
@@ -274,7 +220,7 @@
             </div>
             <div class="join-meta-item">
                 <span class="k">contacto</span>
-                <span class="v">@developersclub.esqp</span>
+                <span class="v">developersclub.esqp@gmail.com</span>
             </div>
         </div>
     </div>
@@ -284,12 +230,11 @@
 
 <footer>
     <div class="foot-left">
-        <span class="bracket">{</span>
+        <img class="foot-seal" src="images/logo.jpg" alt="" width="30" height="30">
         Developer's Club · ESQP · 2025/2026
-        <span class="bracket">}</span>
     </div>
     <div class="foot-right">
-        built with <span class="heart">&lt;3</span> &amp; curiosidade
+        feito com <span class="heart">&lt;3</span> &amp; curiosidade
         <span class="sep">·</span>
         <a href="#" id="admin-trigger" class="admin-trigger">[ admin ]</a>
         <span class="hint" title="tenta o konami code">↑↑↓↓←→←→ba</span>
@@ -302,14 +247,12 @@
     <div class="modal-panel" role="dialog" aria-labelledby="login-title">
         <header class="modal-head">
             <div class="modal-title" id="login-title">
-                <span class="prompt">$</span> auth --login
+                <span class="prompt">&gt;</span> autenticação
             </div>
             <button class="modal-close" data-close aria-label="fechar">×</button>
         </header>
         <form class="login-form" id="login-form" autocomplete="off">
-            <label class="login-label" for="login-pw">
-                <span class="op">&gt;</span> palavra-passe
-            </label>
+            <label class="login-label" for="login-pw">palavra-passe</label>
             <input
                 type="password" id="login-pw"
                 class="login-input"
@@ -319,15 +262,15 @@
                 required
             >
             <div class="login-error" id="login-error" hidden>
-                <span class="op">!</span> palavra-passe inválida
+                Palavra-passe errada. Tenta outra vez.
             </div>
             <button type="submit" class="cta cta-primary login-submit">
-                <span>./entrar</span>
+                <span>entrar</span>
                 <span class="arrow">→</span>
             </button>
             <p class="login-note">
-                <span class="op">//</span> gate local — não é autenticação a sério.
-                Alterações vivem no teu browser até exportares <code>events.json</code> e fazeres commit.
+                Gate local, não é autenticação a sério. As alterações ficam neste browser
+                até exportares o ficheiro e fazeres commit.
             </p>
         </form>
     </div>
@@ -337,63 +280,128 @@
 <aside class="admin-panel" id="admin-panel" hidden aria-hidden="true">
     <header class="admin-head">
         <div class="admin-title">
-            <span class="prompt">$</span> admin.panel
-            <span class="admin-badge" id="admin-dirty" hidden>● unsaved</span>
+            <span class="prompt">&gt;</span> painel do clube
+            <span class="admin-badge" id="admin-dirty" hidden>por publicar</span>
         </div>
         <button class="admin-close" id="admin-close" aria-label="fechar">×</button>
     </header>
 
-    <section class="admin-section">
-        <div class="admin-section-label">// adicionar evento</div>
-        <form class="admin-form" id="admin-form" autocomplete="off">
-            <div class="admin-field">
-                <label for="ev-date">data</label>
-                <input type="date" id="ev-date" required>
-            </div>
-            <div class="admin-field">
-                <label for="ev-title">título</label>
-                <input type="text" id="ev-title" maxlength="80" placeholder="Workshop de Git" required>
-            </div>
-            <div class="admin-field">
-                <label for="ev-category">categoria</label>
-                <input type="text" id="ev-category" maxlength="24" placeholder="workshop">
-            </div>
-            <div class="admin-field">
-                <label for="ev-desc">descrição</label>
-                <textarea id="ev-desc" rows="3" maxlength="400" placeholder="O que aconteceu?" required></textarea>
-            </div>
-            <div class="admin-field">
-                <label for="ev-tags">tags <span class="op">// separadas por vírgula</span></label>
-                <input type="text" id="ev-tags" placeholder="git, fundamentos, hands-on">
-            </div>
-            <button type="submit" class="cta cta-primary admin-submit">
-                <span>./adicionar</span>
-                <span class="arrow">+</span>
+    <div class="admin-tabs" role="tablist">
+        <button class="admin-tab is-on" data-tab="events" role="tab" aria-selected="true">diário</button>
+        <button class="admin-tab" data-tab="works" role="tab" aria-selected="false">projetos</button>
+    </div>
+
+    <!-- ---------- pane: eventos ---------- -->
+    <div class="admin-pane" data-pane="events">
+        <section class="admin-section">
+            <div class="admin-section-label">novo registo</div>
+            <form class="admin-form" id="admin-form" autocomplete="off">
+                <div class="admin-field">
+                    <label for="ev-date">data</label>
+                    <input type="date" id="ev-date" required>
+                </div>
+                <div class="admin-field">
+                    <label for="ev-title">título</label>
+                    <input type="text" id="ev-title" maxlength="80" placeholder="Workshop de Git" required>
+                </div>
+                <div class="admin-field">
+                    <label for="ev-category">categoria</label>
+                    <input type="text" id="ev-category" maxlength="24" placeholder="workshop">
+                </div>
+                <div class="admin-field">
+                    <label for="ev-desc">descrição</label>
+                    <textarea id="ev-desc" rows="3" maxlength="400" placeholder="O que vai acontecer?" required></textarea>
+                </div>
+                <div class="admin-field">
+                    <label for="ev-tags">tags <span class="op">separadas por vírgula</span></label>
+                    <input type="text" id="ev-tags" placeholder="git, fundamentos, hands-on">
+                </div>
+                <button type="submit" class="cta cta-primary admin-submit">
+                    <span>adicionar registo</span>
+                    <span class="arrow">+</span>
+                </button>
+            </form>
+        </section>
+
+        <section class="admin-section admin-section-grow">
+            <div class="admin-section-label">registos (<span id="admin-count">0</span>)</div>
+            <ul class="admin-list" id="admin-list"></ul>
+        </section>
+
+        <section class="admin-section admin-actions">
+            <button class="cta cta-ghost" id="admin-export">
+                <span>exportar events.json</span>
+                <span class="arrow">↓</span>
             </button>
-        </form>
-    </section>
+            <button class="cta cta-ghost admin-danger" id="admin-discard" hidden>
+                <span>descartar alterações locais</span>
+            </button>
+            <p class="admin-note">
+                Depois de exportar, substitui <code>data/events.json</code> no repositório
+                e faz commit. Só aí é que toda a gente vê.
+            </p>
+        </section>
+    </div>
 
-    <section class="admin-section">
-        <div class="admin-section-label">// eventos atuais (<span id="admin-count">0</span>)</div>
-        <ul class="admin-list" id="admin-list"></ul>
-    </section>
+    <!-- ---------- pane: projetos ---------- -->
+    <div class="admin-pane" data-pane="works" hidden>
+        <section class="admin-section">
+            <div class="admin-section-label">novo projeto</div>
+            <form class="admin-form" id="work-form" autocomplete="off">
+                <div class="admin-field">
+                    <label for="wk-title">título <span class="op">*palavra* fica a cor</span></label>
+                    <input type="text" id="wk-title" maxlength="80" placeholder="Equipa *InAxon*" required>
+                </div>
+                <div class="admin-field">
+                    <label for="wk-category">categoria</label>
+                    <input type="text" id="wk-category" maxlength="24" placeholder="cansat">
+                </div>
+                <div class="admin-field">
+                    <label for="wk-file">ficheiro <span class="op">etiqueta no topo do cartão</span></label>
+                    <input type="text" id="wk-file" maxlength="40" placeholder="cansat.md">
+                </div>
+                <div class="admin-field">
+                    <label for="wk-tagline">frase de abertura</label>
+                    <input type="text" id="wk-tagline" maxlength="140" placeholder="Um satélite do tamanho de uma lata.">
+                </div>
+                <div class="admin-field">
+                    <label for="wk-desc">descrição</label>
+                    <textarea id="wk-desc" rows="4" maxlength="700" placeholder="O que fizemos?" required></textarea>
+                </div>
+                <div class="admin-field">
+                    <label for="wk-tags">tags <span class="op">separadas por vírgula</span></label>
+                    <input type="text" id="wk-tags" placeholder="hardware, sensores, equipa">
+                </div>
+                <button type="submit" class="cta cta-primary admin-submit">
+                    <span>adicionar projeto</span>
+                    <span class="arrow">+</span>
+                </button>
+            </form>
+        </section>
 
-    <section class="admin-section admin-actions">
-        <button class="cta cta-ghost" id="admin-export">
-            <span>./export events.json</span>
-            <span class="arrow">↓</span>
-        </button>
-        <button class="cta cta-ghost admin-danger" id="admin-discard" hidden>
-            <span>discard local changes</span>
-        </button>
-        <button class="cta cta-ghost" id="admin-logout">
-            <span>./logout</span>
-        </button>
-        <p class="admin-note">
-            <span class="op">//</span> após exportar, substitui <code>data/events.json</code>
-            no repo e faz commit. Aí toda a gente vê o evento.
-        </p>
-    </section>
+        <section class="admin-section admin-section-grow">
+            <div class="admin-section-label">projetos (<span id="work-count">0</span>)</div>
+            <ul class="admin-list" id="work-list"></ul>
+        </section>
+
+        <section class="admin-section admin-actions">
+            <button class="cta cta-ghost" id="work-export">
+                <span>exportar projects.json</span>
+                <span class="arrow">↓</span>
+            </button>
+            <button class="cta cta-ghost admin-danger" id="work-discard" hidden>
+                <span>descartar alterações locais</span>
+            </button>
+            <p class="admin-note">
+                Depois de exportar, substitui <code>data/projects.json</code> no repositório
+                e faz commit. As setas ↑↓ mudam a ordem no site.
+            </p>
+        </section>
+    </div>
+
+    <footer class="admin-foot">
+        <button class="admin-logout" id="admin-logout">sair</button>
+    </footer>
 </aside>
 
 <script src="index.js" defer></script>

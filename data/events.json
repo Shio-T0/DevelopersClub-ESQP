@@ -1,4 +1,5 @@
 {
+  "_help": "Secção 'O que está planeado'. Cada entrada é um registo no diário do clube. Edita e faz commit — ou usa o painel admin e exporta este ficheiro por cima.",
   "events": [
     {
       "id": "ev-2026-09-17-entrada-no-novo-ano-letivo-w75n",
