@@ -8,16 +8,12 @@
       "title": "Equipa *InAxon*",
       "tagline": "Um satélite do tamanho de uma lata. Um desafio à altura de uma equipa.",
       "description": "Participámos no CanSat, um desafio internacional onde equipas de estudantes constroem um mini-satélite capaz de recolher e transmitir dados durante uma queda controlada. Juntámos eletrónica, software e engenharia para colocar o nosso projeto no ar — e trazer os dados de volta ao chão.",
-      "tags": ["hardware", "sensores", "software embebido", "equipa"]
-    },
-    {
-      "id": "naboj",
-      "file": "naboj.md",
-      "category": "olimpíada",
-      "title": "Náboj *Matemática*",
-      "tagline": "Mentes rápidas. Raciocínio afinado. Pressão a sério.",
-      "description": "Representámos a escola no Náboj, uma competição internacional de matemática em que equipas resolvem problemas exigentes contrarrelógio. Mais do que medir conhecimento, o Náboj testa estratégia, colaboração e a capacidade de pensar com clareza quando o tempo aperta — exatamente o tipo de desafio que nos move.",
-      "tags": ["resolução de problemas", "equipa", "pensamento rápido"]
+      "tags": [
+        "hardware",
+        "sensores",
+        "software embebido",
+        "equipa"
+      ]
     },
     {
       "id": "sucessoes",
@@ -26,7 +22,11 @@
       "title": "Matemática + *Código*",
       "tagline": "Quando o código dá vida às fórmulas.",
       "description": "Levámos à turma uma apresentação sobre sucessões — não em fórmulas estáticas no quadro, mas em código a correr. Mostrámos como a programação pode tornar a matemática mais visual, mais intuitiva e, sobretudo, mais nossa: traduzimos conceitos em pequenos programas e demos vida aos termos das sucessões, um a um.",
-      "tags": ["sucessões", "visualização", "didática"]
+      "tags": [
+        "sucessões",
+        "visualização",
+        "didática"
+      ]
     },
     {
       "id": "portras-do-futuro",
@@ -35,7 +35,12 @@
       "title": "Por trás do *Futuro*",
       "tagline": "Um website para dar voz a quem está a construir o seu caminho.",
       "description": "Apoiámos o projeto \"Por trás do Futuro\" no desenvolvimento de um website que reúne entrevistas a estudantes universitários e profissionais — partilhas autênticas sobre escolhas, percursos e o que está por trás de cada futuro. Combinámos design, código e inteligência artificial para entregar uma plataforma funcional, leve e pensada para o leitor.",
-      "tags": ["web dev", "IA como ferramenta", "design", "projeto real"]
+      "tags": [
+        "web dev",
+        "IA como ferramenta",
+        "design",
+        "projeto real"
+      ]
     }
   ]
 }

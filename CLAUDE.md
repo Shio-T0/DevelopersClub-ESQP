@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Important
+Maintain ~/Projects/papercuts.md, a global log shared by all my Claude sessions of anything that slowed down development. When you lose time to one mid-session, append date · symptom · fix · project. Check this file first when tooling fails mysteriously.
+
 ## What this is
 
 Static one-page site for **Developer's Club / ESQP · 2025/2026**. Vanilla HTML / CSS / JS, no build step, no dependencies. UI copy is Portuguese. Deploys as-is to GitHub Pages — `index.html` at root is the entrypoint. Source of truth for the club's content is `~/Downloads/Developers_Club.pptx` (slides 1–9 — identity, projects, next chapter, join info).
